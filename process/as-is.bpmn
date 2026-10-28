@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="https://example.org/noordwerk">
+<process id="AsIs" isExecutable="false">
+<startEvent id="start" name="Behoefte"/>
+<userTask id="mail" name="E-mail versturen"/>
+<userTask id="find" name="Goedkeurder zoeken"/>
+<userTask id="decide" name="Akkoord per e-mail"/>
+<endEvent id="end" name="Aanvraag verwerkt"/>
+<sequenceFlow id="flow0" sourceRef="start" targetRef="mail" name=""/>
+<sequenceFlow id="flow1" sourceRef="mail" targetRef="find" name=""/>
+<sequenceFlow id="flow2" sourceRef="find" targetRef="decide" name=""/>
+<sequenceFlow id="flow3" sourceRef="decide" targetRef="end" name=""/>
+</process>
+</definitions>

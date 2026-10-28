@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="https://example.org/noordwerk">
+<process id="ToBe" isExecutable="false">
+<startEvent id="start" name="Behoefte"/>
+<userTask id="submit" name="Aanvraag bevestigen"/>
+<serviceTask id="validate" name="Valideren en routeren"/>
+<userTask id="review" name="Mens beoordeelt"/>
+<exclusiveGateway id="choice" name="Beslissing"/>
+<endEvent id="yes" name="Goedgekeurd"/>
+<endEvent id="no" name="Afgewezen"/>
+<sequenceFlow id="flow0" sourceRef="start" targetRef="submit" name=""/>
+<sequenceFlow id="flow1" sourceRef="submit" targetRef="validate" name=""/>
+<sequenceFlow id="flow2" sourceRef="validate" targetRef="review" name=""/>
+<sequenceFlow id="flow3" sourceRef="review" targetRef="choice" name=""/>
+<sequenceFlow id="flow4" sourceRef="choice" targetRef="yes" name="Akkoord"/>
+<sequenceFlow id="flow5" sourceRef="choice" targetRef="no" name="Afwijzen"/>
+</process>
+</definitions>
