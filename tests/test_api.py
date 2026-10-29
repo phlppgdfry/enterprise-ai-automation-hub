@@ -76,6 +76,16 @@ class ApiTests(unittest.TestCase):
         for token in (None, "unknown", "demo-manager-altered"):
             self.assertEqual(401, self.call("GET", "/requests", token=token)[0])
 
+    def test_public_ui_does_not_bypass_api_auth(self):
+        for path, expected in [("/", b"Noordwerk"), ("/app.js", b"/requests"), ("/app.css", b"--nav")]:
+            with urllib.request.urlopen("http://127.0.0.1:5088" + path, timeout=5) as response:
+                self.assertEqual(200, response.status)
+                self.assertIn(expected, response.read())
+                self.assertIn("frame-ancestors 'none'", response.headers["Content-Security-Policy"])
+                self.assertEqual("nosniff", response.headers["X-Content-Type-Options"])
+                self.assertEqual("no-store", response.headers["Cache-Control"])
+        self.assertEqual(401, self.call("GET", "/requests", token=None)[0])
+
     def test_routing_boundaries(self):
         for index, (category, amount, queue) in enumerate([
             ("expense", 250, "Operations"), ("expense", 250.01, "Finance"),

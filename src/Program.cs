@@ -4,7 +4,12 @@ using System.Text;
 using System.Text.Json;
 
 // Deliberately local: these demo identities must never become production credentials.
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    // Also works when launched from the repository root or a published directory.
+    WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot")
+});
 builder.WebHost.UseUrls("http://127.0.0.1:5088");
 builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 16_384);
 var app = builder.Build();
@@ -15,6 +20,16 @@ var identities = new Dictionary<string, Identity>
     ["demo-bob"] = new("bob", "employee"),
     ["demo-manager"] = new("maria", "approver")
 };
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["Referrer-Policy"] = "no-referrer";
+    context.Response.Headers.CacheControl = "no-store";
+    await next();
+});
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.Use(async (context, next) =>
 {
     context.Response.Headers.CacheControl = "no-store";

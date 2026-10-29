@@ -1,69 +1,122 @@
-# Enterprise AI & Automation Hub
+# Noordwerk · Enterprise AI Automation Hub
 
-**Een aanvraag van medewerker tot menselijke goedkeuring, met een werkende .NET-API en een Power Platform-bouwspecificatie.**
+**A working employee-to-approver workflow: clear routing, human decisions, and inspectable engineering.**
 
-Fictieve consultancy-case voor Noordwerk. Geen klantopdracht of samenwerking met
-ConXioN. Alle volumes en baten zijn aannames. De API draait lokaal; Power Apps,
-Power Automate en Copilot Studio zijn in deze repo nog niet gedeployed.
+![Actual local request workspace with synthetic records](docs/assets/hub-overview.png)
 
-## In drie minuten
+Noordwerk is a **fictional** 140-person technical services company. This independent
+portfolio exercise uses synthetic people, records and assumptions. It is not a real
+client engagement, a Microsoft product screenshot, or a production service.
 
-Vereist: .NET 10 SDK, Python 3.11+ en Make. Geen NuGet-packages buiten het SDK-framework.
+## The business problem
+
+Materials, expenses and access requests arrive in email. People chase the right owner;
+Finance needs a decision trail; IT needs access boundaries. The solution gives each
+request a route and status while keeping the decision with a person.
+
+## Run the demonstration
+
+Prerequisites: .NET 10 SDK, Python 3.11+, Make. No cloud account, paid model or frontend
+package installation is required. The server listens only on `127.0.0.1:5088`.
 
 ```bash
 make verify
 dotnet run --project src --configuration Release --no-build
-# In een tweede terminal, vanuit deze repo:
-python3 scripts/demo.py
+# In a second terminal, from this repository:
+python3 scripts/seed_demo.py
+# Open http://127.0.0.1:5088/
 ```
 
-Je ziet een aanvraag voor 320 EUR naar Finance gaan, een retry hetzelfde ID
-opleveren en een afzonderlijke goedkeurder met reden beslissen. Data blijft bij
-herstart bewaard in `data/requests.json`. `HUB_DATA` kiest een ander bestand.
-De server luistert vast op `http://127.0.0.1:5088`; gebruik één proces.
+1. As **Alice**, create an expense for €320 and confirm the details. It routes to Finance.
+2. Select **Maria · Approver**, open Approvals, inspect the request and record a reason.
+3. Approve or reject. Return to Alice and inspect the saved status and audit history.
+4. Select **Bob**: Alice's records are inaccessible. Retry the same API submission key:
+   it returns the original request; a changed payload conflicts.
 
-## Wat deze case aantoont
+The identity switcher chooses **public demo fixtures**, not authenticated users. The
+server still derives ownership and permissions from its identity mapping. Data persists
+in `data/requests.json`; `HUB_DATA` selects an isolated store. Run one server process.
+Seeding is idempotent and never deletes existing records.
 
-| Onderdeel | Controleerbaar bewijs |
-|---|---|
-| Procesanalyse | [As-is en to-be](docs/process.md), BPMN 2.0-bestanden |
-| Integratie | [API-contract](contracts/openapi.json), .NET-bron en echte HTTP-tests |
-| Betrouwbaarheid | Idempotency, versieconflicten, gelijktijdige retries, herstarttest |
-| Security | Eigenaarsfilter op server, gescheiden rollen, verplichte beslisreden |
-| Microsoft-implementatie | [Bouwgids](docs/power-platform-build-guide.md), expliciete tenantacceptatie |
-| Klantcommunicatie | [Demo in vijf minuten](docs/demo-script.md), [architectuur](docs/architecture.md) |
+## What works
 
-## API
-
-Elke route behalve `/health` vraagt `Authorization: Bearer <demo-token>`.
-`demo-alice` en `demo-bob` zijn medewerkers; `demo-manager` is de goedkeurder.
-Dit zijn publiek bekende fixtures, geen veilige productieauthenticatie.
-
-| Methode | Route | Regel |
+| Capability | Implementation | Boundary |
 |---|---|---|
-| GET | `/health` | Status en expliciete simulatiemodus |
-| GET | `/requests` | Eigen records; approver ziet alle records |
-| GET | `/requests/{id}` | Zelfde eigenaarcontrole |
-| POST | `/requests` | Medewerker, `Idempotency-Key`, title/category/amount |
-| POST | `/requests/{id}/decision` | Approver, outcome/reason/version |
+| Employee workspace | Confirmed submission, search/filter, status, detail history | Metadata only; synthetic data |
+| Human review | Separate approver, required reason, current version | One demo approver covers all queues |
+| Operations view | Visible volume, pending queues, approvals and mean decision time | Calculated from local records; not customer performance |
+| Reliable API | Owner-scoped idempotency, concurrency conflict, atomic persistence | One process and a JSON file |
+| Browser experience | Responsive layout, keyboard focus, native dialogs, loading/error/empty states | Chromium checked; no full accessibility certification |
+| Policy guide | Transparent routing and source links | Rule explanation; does not pretend to call AI |
+| Portfolio navigation | Decide / Deliver / Govern within the existing app | No fourth application or public deployment |
 
-Categorieën: `materials`, `expense`, `access`. Bedrag in EUR, maximaal twee
-decimalen. Access heeft bedrag nul. Tot en met 250 EUR naar Operations,
-daarboven Finance; access naar IT. Elke aanvraag wacht op een mens. De lokale
-goedkeurder heeft toegang tot alle wachtrijen; productie vraagt gescheiden rollen.
+![Human approval dialog from the working application](docs/assets/hub-approval.png)
 
-## De drie portfolio-cases
+## Architecture and technology
 
-1. **Deze Hub:** uitvoeren en integreren.
-2. [Enterprise AI Agent & Governance](https://github.com/phlppgdfry/enterprise-ai-agent-governance): brongebonden antwoorden, veiligheidsevaluatie en bevestigde API-actie.
-3. [AI Transformation Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook): discovery, prioritering, businesscase en adoptie.
+![Local architecture and authority boundaries](docs/assets/architecture.svg)
 
-## Grenzen
+ASP.NET Core 10 serves authored HTML, CSS and JavaScript from the same origin. The
+existing .NET API remains authoritative for ownership, input validation and state.
+Python standard-library clients and HTTP tests keep the default setup small.
 
-Geen productiehosting, Entra-login, echte Power Platform-export, documentuploads,
-automatische betaling, time-based escalatie, gemeten klantwinst of demo-video.
-De JSON-audit is aanpasbaar door de bestandsbeheerder. De afzonderlijke
-[Brevan-labrepo](https://github.com/phlppgdfry/conxion-power-platform-lab) bevat
-bestaand Microsoft-bewijs; dat is geen bewijs van een Noordwerk-deployment.
+Routing is deterministic: access → IT at €0; materials/expenses up to €250 → Operations,
+above €250 → Finance. Every request remains pending until a human fixture decides.
+There is no reason to ask a model to calculate these rules. The separate agent project
+experiments with source-based policy questions and confirmed submission.
 
-[Bewijs en verificatie](EVIDENCE.md) · [MIT-licentie](LICENSE)
+[Architecture decisions](docs/architecture.md) · [Process and requirements](docs/process.md)
+· [BPMN sources with layout](process/) · [OpenAPI contract](contracts/openapi.json)
+
+## Verification and evidence
+
+`make verify` builds and runs **12 real HTTP tests**, including retries, role separation,
+concurrent decisions, persistence and static-UI security headers. It also checks local
+Markdown targets and JSON syntax. The optional browser suite tests the real submission
+and review journey, record isolation, mobile layout and injected network failure.
+
+```bash
+# Optional browser checks, while port 5088 is free:
+npm ci --ignore-scripts
+npx playwright install chromium
+npm run test:browser
+# Or set PLAYWRIGHT_MODULE to an existing Playwright index.mjs and run:
+# python3 scripts/run_browser.py
+```
+
+[Evidence matrix](EVIDENCE.md) · [Executed checks and limitations](VERIFICATION.md)
+· [Audit and prioritised backlog](PORTFOLIO_AUDIT.md) · [Before/after report](TRANSFORMATION_REPORT.md)
+
+## Microsoft implementation boundary
+
+[Power Platform handoff](power-platform/README.md) includes the inventory, licensing
+questions, deployment-settings example and acceptance gates. The [detailed build
+specification](docs/power-platform-build-guide.md) covers Power Apps, Power Automate,
+Dataverse, Copilot Studio, Teams and SharePoint.
+
+These are **documented designs pending external validation**, not Noordwerk solution
+exports. Existing Brevan/construction labs are separate projects with separate evidence.
+No Entra login, live connector, tenant deployment or applied DLP policy is claimed here.
+
+## Security, value and next steps
+
+Known demo tokens are not production authentication. A JSON audit can be edited by a
+file administrator. Before tenant exposure: validated Entra identity, queue-specific
+permissions, transactional storage, protected audit, retention and recovery testing.
+Documents, extraction, notification delivery and scheduled escalation are deferred.
+No payments, access grants or autonomous approvals are executed.
+
+The companion business case is an assumption model: **−€7,695 in year one with an
+adoption ramp**, not measured savings. It recommends a bounded pilot rather than an
+unqualified rollout. See [security](SECURITY.md) and the [operational runbook](docs/runbook.md).
+
+## One client, three complementary cases
+
+| Stage | Project | What it demonstrates |
+|---|---|---|
+| Decide | [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook) | Discovery, investment decision, roadmap and adoption |
+| Deliver | This Hub | Working process and accountable human review |
+| Govern | [Agent Governance](https://github.com/phlppgdfry/enterprise-ai-agent-governance) | Real model experiment, source boundaries and honest evaluations |
+
+[Interview walkthroughs](docs/interview-guide.md) · [Portfolio strategy](docs/portfolio-strategy.md)
+· [MIT license](LICENSE)

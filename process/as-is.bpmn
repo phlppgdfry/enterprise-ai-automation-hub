@@ -1,14 +1,49 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="https://example.org/noordwerk">
-<process id="AsIs" isExecutable="false">
-<startEvent id="start" name="Behoefte"/>
-<userTask id="mail" name="E-mail versturen"/>
-<userTask id="find" name="Goedkeurder zoeken"/>
-<userTask id="decide" name="Akkoord per e-mail"/>
-<endEvent id="end" name="Aanvraag verwerkt"/>
-<sequenceFlow id="flow0" sourceRef="start" targetRef="mail" name=""/>
-<sequenceFlow id="flow1" sourceRef="mail" targetRef="find" name=""/>
-<sequenceFlow id="flow2" sourceRef="find" targetRef="decide" name=""/>
-<sequenceFlow id="flow3" sourceRef="decide" targetRef="end" name=""/>
-</process>
+<?xml version='1.0' encoding='utf-8'?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="https://example.org/noordwerk">
+  <process id="AsIs" isExecutable="false">
+    <startEvent id="start" name="Behoefte" />
+    <userTask id="mail" name="E-mail versturen" />
+    <userTask id="find" name="Goedkeurder zoeken" />
+    <userTask id="decide" name="Akkoord per e-mail" />
+    <endEvent id="end" name="Aanvraag verwerkt" />
+    <sequenceFlow id="flow0" sourceRef="start" targetRef="mail" name="" />
+    <sequenceFlow id="flow1" sourceRef="mail" targetRef="find" name="" />
+    <sequenceFlow id="flow2" sourceRef="find" targetRef="decide" name="" />
+    <sequenceFlow id="flow3" sourceRef="decide" targetRef="end" name="" />
+  </process>
+  <bpmndi:BPMNDiagram id="AsIsDiagram">
+    <bpmndi:BPMNPlane id="AsIsPlane" bpmnElement="AsIs">
+      <bpmndi:BPMNShape id="startShape" bpmnElement="start">
+        <dc:Bounds x="60" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mailShape" bpmnElement="mail">
+        <dc:Bounds x="145" y="130" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="findShape" bpmnElement="find">
+        <dc:Bounds x="345" y="130" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="decideShape" bpmnElement="decide">
+        <dc:Bounds x="545" y="130" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="endShape" bpmnElement="end">
+        <dc:Bounds x="745" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="flow0Edge" bpmnElement="flow0">
+        <di:waypoint x="96" y="170.0" />
+        <di:waypoint x="145" y="170.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow1Edge" bpmnElement="flow1">
+        <di:waypoint x="295" y="170.0" />
+        <di:waypoint x="345" y="170.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow2Edge" bpmnElement="flow2">
+        <di:waypoint x="495" y="170.0" />
+        <di:waypoint x="545" y="170.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow3Edge" bpmnElement="flow3">
+        <di:waypoint x="695" y="170.0" />
+        <di:waypoint x="745" y="170.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
 </definitions>

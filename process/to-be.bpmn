@@ -1,18 +1,71 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="https://example.org/noordwerk">
-<process id="ToBe" isExecutable="false">
-<startEvent id="start" name="Behoefte"/>
-<userTask id="submit" name="Aanvraag bevestigen"/>
-<serviceTask id="validate" name="Valideren en routeren"/>
-<userTask id="review" name="Mens beoordeelt"/>
-<exclusiveGateway id="choice" name="Beslissing"/>
-<endEvent id="yes" name="Goedgekeurd"/>
-<endEvent id="no" name="Afgewezen"/>
-<sequenceFlow id="flow0" sourceRef="start" targetRef="submit" name=""/>
-<sequenceFlow id="flow1" sourceRef="submit" targetRef="validate" name=""/>
-<sequenceFlow id="flow2" sourceRef="validate" targetRef="review" name=""/>
-<sequenceFlow id="flow3" sourceRef="review" targetRef="choice" name=""/>
-<sequenceFlow id="flow4" sourceRef="choice" targetRef="yes" name="Akkoord"/>
-<sequenceFlow id="flow5" sourceRef="choice" targetRef="no" name="Afwijzen"/>
-</process>
+<?xml version='1.0' encoding='utf-8'?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="https://example.org/noordwerk">
+  <process id="ToBe" isExecutable="false">
+    <startEvent id="start" name="Behoefte" />
+    <userTask id="submit" name="Aanvraag bevestigen" />
+    <serviceTask id="validate" name="Valideren en routeren" />
+    <userTask id="review" name="Mens beoordeelt" />
+    <exclusiveGateway id="choice" name="Beslissing" />
+    <endEvent id="yes" name="Goedgekeurd" />
+    <endEvent id="no" name="Afgewezen" />
+    <sequenceFlow id="flow0" sourceRef="start" targetRef="submit" name="" />
+    <sequenceFlow id="flow1" sourceRef="submit" targetRef="validate" name="" />
+    <sequenceFlow id="flow2" sourceRef="validate" targetRef="review" name="" />
+    <sequenceFlow id="flow3" sourceRef="review" targetRef="choice" name="" />
+    <sequenceFlow id="flow4" sourceRef="choice" targetRef="yes" name="Akkoord" />
+    <sequenceFlow id="flow5" sourceRef="choice" targetRef="no" name="Afwijzen" />
+  </process>
+  <bpmndi:BPMNDiagram id="ToBeDiagram">
+    <bpmndi:BPMNPlane id="ToBePlane" bpmnElement="ToBe">
+      <bpmndi:BPMNShape id="startShape" bpmnElement="start">
+        <dc:Bounds x="50" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="submitShape" bpmnElement="submit">
+        <dc:Bounds x="130" y="130" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="validateShape" bpmnElement="validate">
+        <dc:Bounds x="330" y="130" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="reviewShape" bpmnElement="review">
+        <dc:Bounds x="530" y="130" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="choiceShape" bpmnElement="choice">
+        <dc:Bounds x="730" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="yesShape" bpmnElement="yes">
+        <dc:Bounds x="860" y="72" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="noShape" bpmnElement="no">
+        <dc:Bounds x="860" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="flow0Edge" bpmnElement="flow0">
+        <di:waypoint x="86" y="170.0" />
+        <di:waypoint x="130" y="170.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow1Edge" bpmnElement="flow1">
+        <di:waypoint x="280" y="170.0" />
+        <di:waypoint x="330" y="170.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow2Edge" bpmnElement="flow2">
+        <di:waypoint x="480" y="170.0" />
+        <di:waypoint x="530" y="170.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow3Edge" bpmnElement="flow3">
+        <di:waypoint x="680" y="170.0" />
+        <di:waypoint x="730" y="170.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow4Edge" bpmnElement="flow4">
+        <di:waypoint x="780" y="170.0" />
+        <di:waypoint x="810" y="170.0" />
+        <di:waypoint x="810" y="90.0" />
+        <di:waypoint x="860" y="90.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow5Edge" bpmnElement="flow5">
+        <di:waypoint x="780" y="170.0" />
+        <di:waypoint x="810" y="170.0" />
+        <di:waypoint x="810" y="250.0" />
+        <di:waypoint x="860" y="250.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
 </definitions>

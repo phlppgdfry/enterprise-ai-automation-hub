@@ -13,8 +13,8 @@ De observaties hieronder zijn scenario-aannames, geen workshopverslag van een kl
 ## BPMN-bestanden
 
 [As-is](../process/as-is.bpmn) en [to-be](../process/to-be.bpmn) bevatten semantische
-BPMN 2.0-processen. Ze zijn niet uitvoerbaar en bevatten geen diagramcoördinaten;
-een BPMN-editor kan auto-layout gebruiken. Het to-be-model abstraheert de routering
+BPMN 2.0-processen. Ze zijn niet uitvoerbaar; BPMN DI-coördinaten maken de modellen direct zichtbaar
+in een compatibele editor. De lay-out is lokaal als XML gecontroleerd; een externe BPMN-editor is nog niet getest. Het to-be-model abstraheert de routering
 als één service task; de tabel hierboven legt de beslisregels vast.
 
 ```mermaid

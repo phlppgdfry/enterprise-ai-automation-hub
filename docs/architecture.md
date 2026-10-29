@@ -13,8 +13,8 @@ flowchart LR
   A --> L[Audit events per aanvraag]
 ```
 
-De lokale demonstratie gebruikt Python-clients in plaats van de drie Microsoft
-producten. De API is de autoriteit voor validatie, eigenaar en status. Een AI-agent
+De lokale demonstratie gebruikt een webinterface op de .NET-API en Python-clients
+in plaats van de drie Microsoft-producten. De API is de autoriteit voor validatie, eigenaar en status. Een AI-agent
 kan een aanvraag voorbereiden en na bevestiging indienen, maar krijgt geen
 goedkeuringsactie. Een retry met dezelfde sleutel en payload levert hetzelfde ID;
 een andere payload bij dezelfde sleutel geeft 409. Sleutels zijn per eigenaar.
