@@ -21,7 +21,7 @@ package installation is required. The server listens only on `127.0.0.1:5088`.
 
 ```bash
 make verify
-dotnet run --project src --configuration Release --no-build
+python3 scripts/start_demo.py
 # In a second terminal, from this repository:
 python3 scripts/seed_demo.py
 # Open http://127.0.0.1:5088/
@@ -70,7 +70,7 @@ experiments with source-based policy questions and confirmed submission.
 
 ## Verification and evidence
 
-`make verify` builds and runs **12 real HTTP tests**, including retries, role separation,
+`make verify` builds and runs **16 HTTP and storage tests**, including retries, role separation,
 concurrent decisions, persistence and static-UI security headers. It also checks local
 Markdown targets and JSON syntax. The optional browser suite tests the real submission
 and review journey, record isolation, mobile layout and injected network failure.
@@ -120,3 +120,8 @@ unqualified rollout. See [security](SECURITY.md) and the [operational runbook](d
 
 [Interview walkthroughs](docs/interview-guide.md) · [Portfolio strategy](docs/portfolio-strategy.md)
 · [MIT license](LICENSE)
+
+## Release candidate — 30 October 2026
+
+See [local release notes](RELEASE_NOTES.md), [the release-candidate verification](RELEASE_VERIFICATION.md), and [code/debugging preparation](docs/code-and-practice.md).
+The business-facing entry point is the [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/tree/portfolio/noordwerk-showcase). Historical reports retain their original dates and counts.

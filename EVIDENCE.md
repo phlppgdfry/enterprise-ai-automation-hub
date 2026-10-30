@@ -22,3 +22,7 @@ synthetic isolated local store. These statuses do not certify production readine
 Executed commands, failures corrected, browser environments and remaining manual checks:
 [verification report](VERIFICATION.md). Baseline/after scores and continuation:
 [transformation report](TRANSFORMATION_REPORT.md).
+
+## Release candidate delta — 30 October 2026
+
+The prior matrix is historical. [Release verification](RELEASE_VERIFICATION.md) records current pass/fail and unexecuted boundaries. [Release notes](RELEASE_NOTES.md) identify new implementation and preserved limitations. Hosted CI is recorded only after execution.

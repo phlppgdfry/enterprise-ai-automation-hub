@@ -2,11 +2,16 @@
 import os
 from pathlib import Path
 import subprocess
+import socket
+import sys
 import tempfile
 import time
 import urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
+with socket.socket() as probe:
+    if probe.connect_ex(('127.0.0.1',5088)) == 0:
+        raise SystemExit('Port 5088 occupied; refusing to write to an unrelated process')
 with tempfile.TemporaryDirectory(prefix='noordwerk-browser-') as temp:
     env=dict(os.environ,HUB_DATA=str(Path(temp)/'requests.json'),ASPNETCORE_ENVIRONMENT='Production')
     with tempfile.TemporaryFile() as log:
@@ -24,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='noordwerk-browser-') as temp:
             # time to report a bind failure before making any synthetic writes.
             time.sleep(.3)
             if process.poll() is not None:raise RuntimeError('Hub process stopped; port may be occupied')
-            subprocess.run(['python3','scripts/seed_demo.py'],cwd=ROOT,env=env,check=True)
+            subprocess.run([sys.executable,'scripts/seed_demo.py'],cwd=ROOT,env=env,check=True)
             subprocess.run(['node','scripts/browser_verify.mjs'],cwd=ROOT,env=env,check=True)
         finally:
             if process.poll() is None:

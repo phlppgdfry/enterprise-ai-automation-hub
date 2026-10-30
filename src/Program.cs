@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 builder.WebHost.UseUrls("http://127.0.0.1:5088");
 builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 16_384);
 var app = builder.Build();
-var store = new RequestStore(Environment.GetEnvironmentVariable("HUB_DATA") ?? "data/requests.json");
+using var store = new RequestStore(Environment.GetEnvironmentVariable("HUB_DATA") ?? "data/requests.json");
 var identities = new Dictionary<string, Identity>
 {
     ["demo-alice"] = new("alice", "employee"),
@@ -64,28 +64,75 @@ record RequestItem(Guid Id, string Owner, string Title, string Category, decimal
     List<AuditEvent> Events);
 class RuleException(int status, string message) : Exception(message) { public int Status => status; }
 
-sealed class RequestStore
+sealed class RequestStore : IDisposable
 {
     readonly object gate = new();
     readonly string path;
+    readonly FileStream lease;
     List<RequestItem> items;
     public RequestStore(string file)
     {
         path = Path.GetFullPath(file);
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        // A second local process must not race a read/replace cycle on this store.
+        lease = new FileStream(path + ".lock", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
         // Corrupt persisted data fails startup; never silently erase history.
         items = File.Exists(path) ? JsonSerializer.Deserialize<List<RequestItem>>(File.ReadAllText(path))
             ?? throw new InvalidDataException("Invalid request store") : [];
+        ValidateRestored(items);
+    }
+    public void Dispose() => lease.Dispose();
+    static string Fingerprint(string title, string category, decimal amount)
+    {
+        var canonical = new { title, Category = category, amount = amount.ToString("0.00", CultureInfo.InvariantCulture) };
+        return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(canonical))));
+    }
+    static void ValidateRestored(List<RequestItem> records)
+    {
+        var ids = new HashSet<Guid>();
+        var keys = new HashSet<(string, string)>();
+        foreach (var i in records)
+        {
+            if (i is null || i.Id == Guid.Empty || !ids.Add(i.Id) || i.Owner is not ("alice" or "bob") ||
+                string.IsNullOrWhiteSpace(i.Title) || i.Title.Length > 160 || i.Title.Any(char.IsControl) ||
+                i.Category is not ("materials" or "expense" or "access") || i.Amount < 0 || i.Amount > 100_000 ||
+                decimal.Round(i.Amount, 2) != i.Amount || (i.Category == "access" && i.Amount != 0) ||
+                string.IsNullOrWhiteSpace(i.IdempotencyKey) || i.IdempotencyKey.Length > 80 || i.IdempotencyKey.Any(char.IsControl) ||
+                !keys.Add((i.Owner, i.IdempotencyKey)) || i.Fingerprint != Fingerprint(i.Title, i.Category, i.Amount) ||
+                i.Queue != (i.Category == "access" ? "IT" : i.Amount > 250 ? "Finance" : "Operations") ||
+                i.Status is not ("pending" or "approved" or "rejected") ||
+                i.Version != (i.Status == "pending" ? 1 : 2) || i.Events is null || i.Events.Count != i.Version)
+                throw new InvalidDataException("Stored request violates the local workflow contract");
+            var first = i.Events[0];
+            if (first is null || first.Actor != i.Owner || first.Action != "submitted" || first.Reason != null || first.At == default)
+                throw new InvalidDataException("Invalid submission audit event");
+            if (i.Version == 2)
+            {
+                var decision = i.Events[1];
+                if (decision is null || decision.Actor != "maria" || decision.Action != i.Status ||
+                    string.IsNullOrWhiteSpace(decision.Reason) || decision.Reason.Length > 500 ||
+                    decision.Reason.Any(char.IsControl) || decision.At < first.At)
+                    throw new InvalidDataException("Invalid decision audit event");
+            }
+        }
     }
     void Commit(List<RequestItem> next)
     {
         var temp = path + ".tmp";
-        using (var stream = new FileStream(temp, FileMode.Create, FileAccess.Write, FileShare.None))
+        try
         {
-            JsonSerializer.Serialize(stream, next, new JsonSerializerOptions { WriteIndented = true });
-            stream.Flush(true);
+            using (var stream = new FileStream(temp, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                JsonSerializer.Serialize(stream, next, new JsonSerializerOptions { WriteIndented = true });
+                stream.Flush(true);
+            }
+            File.Move(temp, path, true);
         }
-        File.Move(temp, path, true);
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+        {
+            // Catch storage failures here, not response/network failures after a committed write.
+            throw new RuleException(503, "Storage unavailable. Check status and retry unchanged details with the same key.");
+        }
         items = next;
     }
     static void Visible(RequestItem item, Identity actor)
@@ -119,8 +166,7 @@ sealed class RequestStore
         if (input.Category == "access" && amount != 0) throw new RuleException(400, "Access requests have no amount");
         if (string.IsNullOrWhiteSpace(key) || key.Length > 80 || key.Any(char.IsControl))
             throw new RuleException(400, "Idempotency-Key required (1–80 printable characters)");
-        var canonical = new { title, input.Category, amount = amount.ToString("0.00", CultureInfo.InvariantCulture) };
-        var hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(canonical))));
+        var hash = Fingerprint(title, input.Category, amount);
         lock (gate)
         {
             var previous = items.Find(i => i.Owner == actor.User && i.IdempotencyKey == key);

@@ -1,71 +1,137 @@
-<?xml version='1.0' encoding='utf-8'?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="https://example.org/noordwerk">
-  <process id="ToBe" isExecutable="false">
-    <startEvent id="start" name="Behoefte" />
-    <userTask id="submit" name="Aanvraag bevestigen" />
-    <serviceTask id="validate" name="Valideren en routeren" />
-    <userTask id="review" name="Mens beoordeelt" />
-    <exclusiveGateway id="choice" name="Beslissing" />
-    <endEvent id="yes" name="Goedgekeurd" />
-    <endEvent id="no" name="Afgewezen" />
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="to-beDefinitions" targetNamespace="https://example.org/noordwerk">
+  <process id="tobe" isExecutable="false">
+    <laneSet id="to-beLaneSet">
+      <lane id="lane0" name="Employee">
+        <flowNodeRef>start</flowNodeRef>
+        <flowNodeRef>submit</flowNodeRef>
+        <flowNodeRef>correct</flowNodeRef>
+      </lane>
+      <lane id="lane1" name="API / local storage">
+        <flowNodeRef>validate</flowNodeRef>
+        <flowNodeRef>valid</flowNodeRef>
+        <flowNodeRef>approved</flowNodeRef>
+        <flowNodeRef>rejected</flowNodeRef>
+        <flowNodeRef>yes</flowNodeRef>
+        <flowNodeRef>no</flowNodeRef>
+      </lane>
+      <lane id="lane2" name="Human reviewer">
+        <flowNodeRef>review</flowNodeRef>
+        <flowNodeRef>choice</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="start" name="Need identified" />
+    <userTask id="submit" name="Confirm request" />
+    <serviceTask id="validate" name="Validate and route" />
+    <exclusiveGateway id="valid" name="Valid input?" />
+    <userTask id="correct" name="Show error / correct" />
+    <userTask id="review" name="Review with reason" />
+    <exclusiveGateway id="choice" name="Human decision" />
+    <serviceTask id="approved" name="Save approved + audit" />
+    <serviceTask id="rejected" name="Save rejected + audit" />
+    <endEvent id="yes" name="Approved" />
+    <endEvent id="no" name="Rejected" />
     <sequenceFlow id="flow0" sourceRef="start" targetRef="submit" name="" />
     <sequenceFlow id="flow1" sourceRef="submit" targetRef="validate" name="" />
-    <sequenceFlow id="flow2" sourceRef="validate" targetRef="review" name="" />
-    <sequenceFlow id="flow3" sourceRef="review" targetRef="choice" name="" />
-    <sequenceFlow id="flow4" sourceRef="choice" targetRef="yes" name="Akkoord" />
-    <sequenceFlow id="flow5" sourceRef="choice" targetRef="no" name="Afwijzen" />
+    <sequenceFlow id="flow2" sourceRef="validate" targetRef="valid" name="" />
+    <sequenceFlow id="flow3" sourceRef="valid" targetRef="correct" name="Invalid" />
+    <sequenceFlow id="flow4" sourceRef="correct" targetRef="submit" name="Resubmit" />
+    <sequenceFlow id="flow5" sourceRef="valid" targetRef="review" name="Valid" />
+    <sequenceFlow id="flow6" sourceRef="review" targetRef="choice" name="" />
+    <sequenceFlow id="flow7" sourceRef="choice" targetRef="approved" name="Approve" />
+    <sequenceFlow id="flow8" sourceRef="choice" targetRef="rejected" name="Reject" />
+    <sequenceFlow id="flow9" sourceRef="approved" targetRef="yes" name="" />
+    <sequenceFlow id="flow10" sourceRef="rejected" targetRef="no" name="" />
   </process>
-  <bpmndi:BPMNDiagram id="ToBeDiagram">
-    <bpmndi:BPMNPlane id="ToBePlane" bpmnElement="ToBe">
+  <bpmndi:BPMNDiagram id="to-beDiagram">
+    <bpmndi:BPMNPlane id="to-bePlane" bpmnElement="tobe">
+      <bpmndi:BPMNShape id="laneShape0" bpmnElement="lane0" isHorizontal="true">
+        <dc:Bounds x="20" y="50" width="1340" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="laneShape1" bpmnElement="lane1" isHorizontal="true">
+        <dc:Bounds x="20" y="200" width="1340" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="laneShape2" bpmnElement="lane2" isHorizontal="true">
+        <dc:Bounds x="20" y="350" width="1340" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge0" bpmnElement="flow0">
+        <di:waypoint x="131" y="113.0" />
+        <di:waypoint x="205" y="117.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge1" bpmnElement="flow1">
+        <di:waypoint x="365" y="117.5" />
+        <di:waypoint x="410" y="267.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge2" bpmnElement="flow2">
+        <di:waypoint x="570" y="267.5" />
+        <di:waypoint x="600" y="274.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge3" bpmnElement="flow3">
+        <di:waypoint x="648" y="274.0" />
+        <di:waypoint x="665" y="117.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge4" bpmnElement="flow4">
+        <di:waypoint x="745.0" y="85" />
+        <di:waypoint x="745.0" y="65" />
+        <di:waypoint x="285.0" y="65" />
+        <di:waypoint x="285.0" y="85" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge5" bpmnElement="flow5">
+        <di:waypoint x="648" y="274.0" />
+        <di:waypoint x="760" y="417.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge6" bpmnElement="flow6">
+        <di:waypoint x="920" y="417.5" />
+        <di:waypoint x="960" y="424.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge7" bpmnElement="flow7">
+        <di:waypoint x="1008" y="424.0" />
+        <di:waypoint x="1040" y="247.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge8" bpmnElement="flow8">
+        <di:waypoint x="1008" y="424.0" />
+        <di:waypoint x="1040" y="312.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge9" bpmnElement="flow9">
+        <di:waypoint x="1200" y="247.5" />
+        <di:waypoint x="1280" y="243.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge10" bpmnElement="flow10">
+        <di:waypoint x="1200" y="312.5" />
+        <di:waypoint x="1280" y="328.0" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="startShape" bpmnElement="start">
-        <dc:Bounds x="50" y="152" width="36" height="36" />
+        <dc:Bounds x="95" y="95" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="submitShape" bpmnElement="submit">
-        <dc:Bounds x="130" y="130" width="150" height="80" />
+        <dc:Bounds x="205" y="85" width="160" height="65" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="validateShape" bpmnElement="validate">
-        <dc:Bounds x="330" y="130" width="150" height="80" />
+        <dc:Bounds x="410" y="235" width="160" height="65" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="validShape" bpmnElement="valid">
+        <dc:Bounds x="600" y="250" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="correctShape" bpmnElement="correct">
+        <dc:Bounds x="665" y="85" width="160" height="65" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="reviewShape" bpmnElement="review">
-        <dc:Bounds x="530" y="130" width="150" height="80" />
+        <dc:Bounds x="760" y="385" width="160" height="65" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="choiceShape" bpmnElement="choice">
-        <dc:Bounds x="730" y="145" width="50" height="50" />
+        <dc:Bounds x="960" y="400" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="approvedShape" bpmnElement="approved">
+        <dc:Bounds x="1040" y="215" width="160" height="65" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rejectedShape" bpmnElement="rejected">
+        <dc:Bounds x="1040" y="280" width="160" height="65" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="yesShape" bpmnElement="yes">
-        <dc:Bounds x="860" y="72" width="36" height="36" />
+        <dc:Bounds x="1280" y="225" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="noShape" bpmnElement="no">
-        <dc:Bounds x="860" y="232" width="36" height="36" />
+        <dc:Bounds x="1280" y="310" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="flow0Edge" bpmnElement="flow0">
-        <di:waypoint x="86" y="170.0" />
-        <di:waypoint x="130" y="170.0" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="flow1Edge" bpmnElement="flow1">
-        <di:waypoint x="280" y="170.0" />
-        <di:waypoint x="330" y="170.0" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="flow2Edge" bpmnElement="flow2">
-        <di:waypoint x="480" y="170.0" />
-        <di:waypoint x="530" y="170.0" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="flow3Edge" bpmnElement="flow3">
-        <di:waypoint x="680" y="170.0" />
-        <di:waypoint x="730" y="170.0" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="flow4Edge" bpmnElement="flow4">
-        <di:waypoint x="780" y="170.0" />
-        <di:waypoint x="810" y="170.0" />
-        <di:waypoint x="810" y="90.0" />
-        <di:waypoint x="860" y="90.0" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="flow5Edge" bpmnElement="flow5">
-        <di:waypoint x="780" y="170.0" />
-        <di:waypoint x="810" y="170.0" />
-        <di:waypoint x="810" y="250.0" />
-        <di:waypoint x="860" y="250.0" />
-      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </definitions>
