@@ -114,9 +114,9 @@ unqualified rollout. See [security](SECURITY.md) and the [operational runbook](d
 
 | Stage | Project | What it demonstrates |
 |---|---|---|
-| Decide | [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook) | Discovery, investment decision, roadmap and adoption |
+| Decide | [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/tree/portfolio/noordwerk-showcase) | Discovery, investment decision, roadmap and adoption |
 | Deliver | This Hub | Working process and accountable human review |
-| Govern | [Agent Governance](https://github.com/phlppgdfry/enterprise-ai-agent-governance) | Real model experiment, source boundaries and honest evaluations |
+| Govern | [Agent Governance](https://github.com/phlppgdfry/enterprise-ai-agent-governance/tree/portfolio/noordwerk-showcase) | Real model experiment, source boundaries and honest evaluations |
 
 [Interview walkthroughs](docs/interview-guide.md) · [Portfolio strategy](docs/portfolio-strategy.md)
 · [MIT license](LICENSE)
