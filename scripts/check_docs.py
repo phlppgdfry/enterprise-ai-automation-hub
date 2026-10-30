@@ -6,7 +6,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 errors = []
 for file in ROOT.rglob("*"):
-    if any(part in {".git", "bin", "obj", "__pycache__"} for part in file.parts) or not file.is_file():
+    if any(part in {".git", "bin", "obj", "__pycache__", "node_modules", ".venv", "test-results"} for part in file.parts) or not file.is_file():
         continue
     if file.suffix == ".json":
         try:

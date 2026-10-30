@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+            name="description"
+            content="Noordwerk request and human approval workspace. Fictional enterprise automation demonstration."
+        />
+        <title>Noordwerk | Automation workspace</title>
+        <link rel="stylesheet" href="/app.css" />
+        <script src="/app.js" defer></script>
+    </head>
+    <body>
+        <a class="skip" href="#main">Skip to workspace</a>
+        <aside class="sidebar">
+            <a href="/" class="brand" aria-label="Noordwerk home"
+                ><span class="brand-mark">n<span>↗</span></span
+                ><span>noordwerk<small>Operations workspace</small></span></a
+            >
+            <div class="workspace">
+                <span class="workspace-icon">N</span>
+                <div>Noordwerk Services<small>Local demonstration</small></div>
+                <span class="dot"></span>
+            </div>
+            <nav aria-label="Workspace">
+                <p class="nav-label">Workspace</p>
+                <button class="nav-item active" data-page="overview">
+                    <span aria-hidden="true">◫</span> Overview
+                </button>
+                <button class="nav-item" data-page="requests">
+                    <span aria-hidden="true">▤</span> Requests
+                    <span class="nav-count" id="nav-count">0</span>
+                </button>
+                <button class="nav-item" data-page="approvals">
+                    <span aria-hidden="true">✓</span> Approvals
+                </button>
+                <button class="nav-item" data-page="activity">
+                    <span aria-hidden="true">◷</span> Audit history
+                </button>
+                <p class="nav-label">Knowledge & evidence</p>
+                <button class="nav-item" data-page="policies">
+                    <span aria-hidden="true">▥</span> Policy guide
+                </button>
+                <button class="nav-item" data-page="portfolio">
+                    <span aria-hidden="true">◇</span> The portfolio
+                </button>
+            </nav>
+            <div class="sidebar-note">
+                <span class="note-symbol">↗</span
+                ><strong>Automation with accountability</strong>
+                <p>Rules route the work.<br />A person makes the decision.</p>
+            </div>
+            <div class="sidebar-footer">
+                <span class="avatar">AL</span>
+                <div id="identity-label">
+                    Alice Laurent<small>Employee demo identity</small>
+                </div>
+            </div>
+        </aside>
+        <div class="shell">
+            <header class="topbar">
+                <div>
+                    <span class="breadcrumb">Workspace</span
+                    ><span class="slash">/</span
+                    ><span id="breadcrumb">Overview</span>
+                </div>
+                <div class="top-actions">
+                    <span class="environment"
+                        ><span class="dot"></span> Local API</span
+                    ><label class="identity-switch"
+                        >Demo identity<select
+                            id="identity"
+                            aria-label="Demo identity"
+                        >
+                            <option value="demo-alice">Alice · Employee</option>
+                            <option value="demo-bob">Bob · Employee</option>
+                            <option value="demo-manager">
+                                Maria · Approver
+                            </option>
+                        </select></label
+                    >
+                </div>
+            </header>
+            <div class="demo-strip">
+                <span>Fictional company · Synthetic data</span
+                ><span
+                    >Public demo identities. Microsoft integrations are a target
+                    design.</span
+                >
+            </div>
+            <main id="main" tabindex="-1">
+                <div class="page-heading">
+                    <div>
+                        <p id="eyebrow">Your operations, in view</p>
+                        <h1 id="page-title">
+                            A clearer path for every request.
+                        </h1>
+                        <p id="page-description">
+                            Submit, follow up, and keep decisions moving with
+                            the right people.
+                        </p>
+                    </div>
+                    <button class="primary" id="new-request">
+                        <span aria-hidden="true">＋</span> New request
+                    </button>
+                </div>
+                <div id="notice" role="status" aria-live="polite"></div>
+                <div id="error" class="error" role="alert" hidden></div>
+                <div id="loading" class="loading" hidden>
+                    Loading your workspace…
+                </div>
+                <div id="content"></div>
+                <footer class="page-footer">
+                    <span>Noordwerk / Enterprise AI & Automation Hub</span
+                    ><span
+                        >Local reference implementation · No production
+                        service</span
+                    >
+                </footer>
+            </main>
+        </div>
+        <dialog id="request-dialog" aria-labelledby="request-title">
+            <form id="request-form">
+                <div class="dialog-heading">
+                    <div>
+                        <p>Employee workspace</p>
+                        <h2 id="request-title">Start a request</h2>
+                    </div>
+                    <button
+                        type="button"
+                        class="icon-button"
+                        data-close="request-dialog"
+                        aria-label="Close request form"
+                    >
+                        ×
+                    </button>
+                </div>
+                <p class="muted">
+                    Tell the reviewer what you need. Every request waits for a
+                    human decision.
+                </p>
+                <label
+                    >Request title<input
+                        name="title"
+                        required
+                        maxlength="160"
+                        placeholder="e.g. Safety equipment for the Ghent team"
+                /></label>
+                <div class="form-row">
+                    <label for="request-category">Category</label
+                    ><select id="request-category" name="category">
+                        <option value="materials">Materials</option>
+                        <option value="expense">Expense</option>
+                        <option value="access">
+                            Application access
+                        </option></select
+                    ><label for="request-amount">Amount (EUR)</label
+                    ><input
+                        id="request-amount"
+                        name="amount"
+                        type="number"
+                        required
+                        min="0"
+                        max="100000"
+                        step="0.01"
+                        value="0"
+                    />
+                </div>
+                <div class="routing-preview">
+                    <span aria-hidden="true">↳</span>
+                    <div>
+                        <strong id="route-label">Routes to Operations</strong>
+                        <p>Rule-based routing. No automatic approval.</p>
+                    </div>
+                </div>
+                <p class="muted small">
+                    Use synthetic information only. Document storage and
+                    extraction await a secured integration; this form accepts
+                    request metadata.
+                </p>
+                <label class="checkbox"
+                    ><input type="checkbox" name="confirm" required /> I have
+                    reviewed these details and want to submit.</label
+                >
+                <div id="form-error" role="alert" class="error" hidden></div>
+                <div class="dialog-actions">
+                    <button
+                        type="button"
+                        class="secondary"
+                        data-close="request-dialog"
+                    >
+                        Cancel</button
+                    ><button class="primary" id="submit-request" type="submit">
+                        Submit request
+                    </button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="detail-dialog" aria-labelledby="detail-title">
+            <div id="detail-content"></div>
+        </dialog>
+    </body>
+</html>
