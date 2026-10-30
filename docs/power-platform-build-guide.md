@@ -3,7 +3,7 @@
 Dit is een uitvoerbare bouwspecificatie voor een maker, **geen solution-export**.
 Er is in deze repo nog geen Power Apps-app of Power Automate-flow gedeployed.
 Een bestaande afzonderlijke labimplementatie staat in
-[conxion-power-platform-lab](https://github.com/phlppgdfry/conxion-power-platform-lab).
+`conxion-power-platform-lab` (private related lab; not publicly reviewable and not required to reproduce Noordwerk).
 Die behandelt onkosten bij Brevan; haar resultaten bewijzen deze Noordwerk-case niet.
 
 ## Randvoorwaarden

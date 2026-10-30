@@ -1,5 +1,7 @@
 # Noordwerk · Enterprise AI Automation Hub
 
+**[Portfolio completion](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/portfolio/noordwerk-showcase/PORTFOLIO_FINAL.md) · [Five- and ten-minute walkthrough](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/portfolio/noordwerk-showcase/docs/portfolio-walkthrough.md)**
+
 **A working employee-to-approver workflow: clear routing, human decisions, and inspectable engineering.**
 
 ![Actual local request workspace with synthetic records](docs/assets/hub-overview.png)
@@ -121,7 +123,7 @@ unqualified rollout. See [security](SECURITY.md) and the [operational runbook](d
 [Interview walkthroughs](docs/interview-guide.md) · [Portfolio strategy](docs/portfolio-strategy.md)
 · [MIT license](LICENSE)
 
-## Release candidate — 30 October 2026
+## Noordwerk Portfolio v1.0 — Showcase Candidate
 
 See [local release notes](RELEASE_NOTES.md), [the release-candidate verification](RELEASE_VERIFICATION.md), and [code/debugging preparation](docs/code-and-practice.md).
 The business-facing entry point is the [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/tree/portfolio/noordwerk-showcase). Historical reports retain their original dates and counts.
