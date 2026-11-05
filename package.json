@@ -1,0 +1,10 @@
+{
+  "name": "noordwerk-hub-browser-checks",
+  "private": true,
+  "description": "Optional browser verification only; the application runs on .NET without Node.",
+  "scripts": {
+    "check:ui": "node --check src/wwwroot/app.js",
+    "test:browser": "python3 scripts/run_browser.py"
+  },
+  "devDependencies": {"playwright": "1.63.0"}
+}

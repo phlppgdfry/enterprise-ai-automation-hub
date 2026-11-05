@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-30T01:30:10.949Z",
+  "environment": "Local .NET 10 / synthetic isolated store / Chromium",
+  "browserPlugin": "Browser plugin not available; existing local Playwright used",
+  "viewports": [
+    "1512x1050",
+    "390x844"
+  ],
+  "passed": [
+    "page identity",
+    "meaningful render",
+    "no runtime errors before injected outage",
+    "employee submission",
+    "Finance route at EUR 320",
+    "human decision with reason",
+    "employee sees saved history",
+    "Bob cannot see Alice request",
+    "search empty state",
+    "mobile no horizontal page overflow",
+    "access amount zero",
+    "reduced-motion mobile layout",
+    "keyboard-focusable mobile table region",
+    "outage recovery message"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "limitations": [
+    "Chromium only",
+    "No screen reader or full WCAG audit",
+    "No tenant authentication",
+    "No external Microsoft integration"
+  ]
+}

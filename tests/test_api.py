@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import socket
 import tempfile
 import time
 import unittest
@@ -23,6 +24,9 @@ class ApiTests(unittest.TestCase):
 
     @classmethod
     def start(cls):
+        with socket.socket() as probe:
+            if probe.connect_ex(("127.0.0.1", 5088)) == 0:
+                raise RuntimeError("Port 5088 occupied; refusing to test an unrelated process")
         cls.log = tempfile.TemporaryFile()
         cls.process = subprocess.Popen(
             ["dotnet", str(ROOT / "src/bin/Release/net10.0/AutomationHub.dll")],
@@ -75,6 +79,16 @@ class ApiTests(unittest.TestCase):
     def test_authentication(self):
         for token in (None, "unknown", "demo-manager-altered"):
             self.assertEqual(401, self.call("GET", "/requests", token=token)[0])
+
+    def test_public_ui_does_not_bypass_api_auth(self):
+        for path, expected in [("/", b"Noordwerk"), ("/app.js", b"/requests"), ("/app.css", b"--nav")]:
+            with urllib.request.urlopen("http://127.0.0.1:5088" + path, timeout=5) as response:
+                self.assertEqual(200, response.status)
+                self.assertIn(expected, response.read())
+                self.assertIn("frame-ancestors 'none'", response.headers["Content-Security-Policy"])
+                self.assertEqual("nosniff", response.headers["X-Content-Type-Options"])
+                self.assertEqual("no-store", response.headers["Cache-Control"])
+        self.assertEqual(401, self.call("GET", "/requests", token=None)[0])
 
     def test_routing_boundaries(self):
         for index, (category, amount, queue) in enumerate([
@@ -141,6 +155,29 @@ class ApiTests(unittest.TestCase):
             dict(outcome="rejected", reason="Geen budget", version=1), token="demo-manager")
         self.assertEqual(200, code)
         self.assertEqual("rejected", result["status"])
+
+    def test_no_cancel_or_owner_role_escalation(self):
+        status, item = self.call("POST", "/requests", dict(title="spoof",category="access",amount=0,
+            owner="maria",role="approver",status="approved",tenant="other"),key="spoof")
+        self.assertEqual(201,status)
+        self.assertEqual(("alice","pending"),(item["owner"],item["status"]))
+        self.assertEqual(404,self.call("GET","/requests/00000000-0000-0000-0000-000000000000")[0])
+        self.assertEqual(405,self.call("DELETE","/requests/"+item["id"])[0])
+        self.assertNotEqual(200,self.call("POST","/requests/"+item["id"]+"/cancel",{})[0])
+
+    def test_failed_write_does_not_commit_memory_or_erase_store(self):
+        path = Path(self.env["HUB_DATA"])
+        before = path.read_bytes() if path.exists() else None
+        blocker = Path(str(path)+".tmp")
+        blocker.mkdir()
+        try:
+            self.assertEqual(503,self.create("failed-write")[0])
+            _, visible = self.call("GET","/requests")
+            self.assertNotIn("failed-write",[i["idempotencyKey"] for i in visible])
+            self.assertEqual(before,path.read_bytes() if path.exists() else None)
+        finally:
+            blocker.rmdir()
+        self.assertEqual(201,self.create("failed-write")[0])
 
     def test_concurrent_decisions_have_one_winner(self):
         _, item = self.create("competing-decisions")

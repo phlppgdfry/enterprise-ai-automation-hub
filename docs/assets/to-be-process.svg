@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="560" viewBox="0 0 1380 560" role="img" aria-labelledby="title desc"><title id="title">Local reference — rules route; a human decides</title><desc id="desc">Non-executable fictional process with employee, API and reviewer lanes. No AI approval or deployed escalation.</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#547083"/></marker></defs><rect width="100%" height="100%" fill="white"/><g font-family="Arial, sans-serif" fill="#20384a"><text x="24" y="30" font-size="20" font-weight="bold">Local reference — rules route; a human decides</text>
+<rect x="20" y="50" width="1340" height="150" fill="#f3f6f8" stroke="#d5e0e6"/><text x="30" y="78" font-size="13">Employee</text>
+<rect x="20" y="200" width="1340" height="150" fill="#f3f6f8" stroke="#d5e0e6"/><text x="30" y="228" font-size="13">API / local storage</text>
+<rect x="20" y="350" width="1340" height="150" fill="#f3f6f8" stroke="#d5e0e6"/><text x="30" y="378" font-size="13">Human reviewer</text>
+<polyline points="131,113.0 205,117.5" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polyline points="365,117.5 410,267.5" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polyline points="570,267.5 600,274.0" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polyline points="648,274.0 665,117.5" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="656.5" y="188.75" font-size="11">Invalid</text>
+<polyline points="745.0,85 745.0,65 285.0,65 285.0,85" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="515.0" y="78.0" font-size="11">Resubmit</text>
+<polyline points="648,274.0 760,417.5" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="704.0" y="338.75" font-size="11">Valid</text>
+<polyline points="920,417.5 960,424.0" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polyline points="1008,424.0 1040,247.5" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="960" y="300" font-size="11">Approve</text>
+<polyline points="1008,424.0 1040,312.5" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="960" y="370" font-size="11">Reject</text>
+<polyline points="1200,247.5 1280,243.0" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polyline points="1200,312.5 1280,328.0" fill="none" stroke="#547083" stroke-width="1.5" marker-end="url(#arrow)"/>
+<circle cx="113.0" cy="113.0" r="18" fill="white" stroke="#096b62" stroke-width="1.5"/>
+<text x="113.0" y="147" text-anchor="middle" font-size="12">Need identified</text>
+<rect x="205" y="85" width="160" height="65" rx="6" fill="white" stroke="#096b62"/>
+<text x="285.0" y="121.5" text-anchor="middle" font-size="12">Confirm request</text>
+<rect x="410" y="235" width="160" height="65" rx="6" fill="white" stroke="#096b62"/>
+<text x="490.0" y="271.5" text-anchor="middle" font-size="12">Validate and route</text>
+<path d="M624.0 250L648 274.0L624.0 298L600 274.0Z" fill="white" stroke="#096b62"/>
+<text x="624.0" y="314" text-anchor="middle" font-size="12">Valid input?</text>
+<rect x="665" y="85" width="160" height="65" rx="6" fill="white" stroke="#096b62"/>
+<text x="745.0" y="121.5" text-anchor="middle" font-size="12">Show error / correct</text>
+<rect x="760" y="385" width="160" height="65" rx="6" fill="white" stroke="#096b62"/>
+<text x="840.0" y="421.5" text-anchor="middle" font-size="12">Review with reason</text>
+<path d="M984.0 400L1008 424.0L984.0 448L960 424.0Z" fill="white" stroke="#096b62"/>
+<text x="984.0" y="464" text-anchor="middle" font-size="12">Human decision</text>
+<rect x="1040" y="215" width="160" height="65" rx="6" fill="white" stroke="#096b62"/>
+<text x="1120.0" y="251.5" text-anchor="middle" font-size="12">Save approved + audit</text>
+<rect x="1040" y="280" width="160" height="65" rx="6" fill="white" stroke="#096b62"/>
+<text x="1120.0" y="316.5" text-anchor="middle" font-size="12">Save rejected + audit</text>
+<circle cx="1298.0" cy="243.0" r="18" fill="white" stroke="#096b62" stroke-width="3"/>
+<text x="1298.0" y="277" text-anchor="middle" font-size="12">Approved</text>
+<circle cx="1298.0" cy="328.0" r="18" fill="white" stroke="#096b62" stroke-width="3"/>
+<text x="1298.0" y="362" text-anchor="middle" font-size="12">Rejected</text>
+<text x="24" y="542" font-size="12" fill="#5c6e7a">Synthetic local scope. No cancellation endpoint, file upload, scheduler or automatic approval. AI policy experiment is a separate read-only path.</text></g></svg>

@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Noordwerk Automation Hub — LOCAL DEMO",
+    "title": "Noordwerk Automation Hub \u2014 LOCAL DEMO",
     "version": "1.0.0",
     "description": "Loopback-only demo. Replace authentication and server before a cloud connector deployment."
   },
@@ -117,6 +117,9 @@
           },
           "409": {
             "description": "Conflicting key, version or state"
+          },
+          "503": {
+            "description": "Local persistence unavailable; check status and retry unchanged payload/key"
           }
         }
       }
@@ -214,6 +217,9 @@
           },
           "409": {
             "description": "Conflicting key, version or state"
+          },
+          "503": {
+            "description": "Local persistence unavailable; check status and retry unchanged payload/key"
           }
         }
       }

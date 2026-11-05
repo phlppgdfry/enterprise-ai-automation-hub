@@ -1,0 +1,10 @@
+{
+  "EnvironmentVariables": [
+    {"SchemaName": "nw_ApiBaseUrl", "Value": "https://replace-with-approved-api.example.invalid"},
+    {"SchemaName": "nw_FinanceThreshold", "Value": "250"},
+    {"SchemaName": "nw_SharePointSite", "Value": "https://replace-with-approved-site.example.invalid"}
+  ],
+  "ConnectionReferences": [
+    {"LogicalName": "nw_RequestApiConnection", "ConnectionId": "REPLACE_FROM_TARGET_ENVIRONMENT", "ConnectorId": "REPLACE_FROM_EXPORTED_SOLUTION"}
+  ]
+}
