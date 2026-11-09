@@ -1,6 +1,6 @@
 # Noordwerk · Enterprise AI Automation Hub
 
-**[Portfolio completion](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/portfolio/noordwerk-showcase/PORTFOLIO_FINAL.md) · [Five- and ten-minute walkthrough](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/portfolio/noordwerk-showcase/docs/portfolio-walkthrough.md)**
+**[Portfolio completion](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/main/PORTFOLIO_FINAL.md) · [Five- and ten-minute walkthrough](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/main/docs/portfolio-walkthrough.md)**
 
 **A working employee-to-approver workflow: clear routing, human decisions, and inspectable engineering.**
 
@@ -9,6 +9,9 @@
 Noordwerk is a **fictional** 140-person technical services company. This independent
 portfolio exercise uses synthetic people, records and assumptions. It is not a real
 client engagement, a Microsoft product screenshot, or a production service.
+
+For analysts and engineering reviewers: run the local demo below, inspect the actual
+workspace screenshots, or follow the five-minute walkthrough. No public live service is hosted.
 
 ## The business problem
 
@@ -116,14 +119,21 @@ unqualified rollout. See [security](SECURITY.md) and the [operational runbook](d
 
 | Stage | Project | What it demonstrates |
 |---|---|---|
-| Decide | [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/tree/portfolio/noordwerk-showcase) | Discovery, investment decision, roadmap and adoption |
+| Decide | [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/tree/main) | Discovery, investment decision, roadmap and adoption |
 | Deliver | This Hub | Working process and accountable human review |
-| Govern | [Agent Governance](https://github.com/phlppgdfry/enterprise-ai-agent-governance/tree/portfolio/noordwerk-showcase) | Real model experiment, source boundaries and honest evaluations |
+| Govern | [Agent Governance](https://github.com/phlppgdfry/enterprise-ai-agent-governance/tree/main) | Real model experiment, source boundaries and honest evaluations |
 
 [Interview walkthroughs](docs/interview-guide.md) · [Portfolio strategy](docs/portfolio-strategy.md)
 · [MIT license](LICENSE)
 
-## Noordwerk Portfolio v1.0 — Showcase Candidate
+## Noordwerk Portfolio v1.0 — published reference
 
 See [local release notes](RELEASE_NOTES.md), [the release-candidate verification](RELEASE_VERIFICATION.md), and [code/debugging preparation](docs/code-and-practice.md).
-The business-facing entry point is the [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/tree/portfolio/noordwerk-showcase). Historical reports retain their original dates and counts.
+The business-facing entry point is the [Consulting Playbook](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/tree/main). Historical reports retain their original dates and counts.
+
+## AI assistance and ownership
+
+Developed and refined with substantial AI coding-assistant support, including code,
+documentation and verification. These artifacts do not establish unaided authorship,
+individual mastery or professional client delivery. Use the code map to inspect and
+reproduce decisions; personal contribution requires the owner's own explanation.
