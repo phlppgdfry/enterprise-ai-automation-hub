@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc">
+<title id="title">Local Hub architecture: the API is the authority</title><desc id="desc">Employee and human approver workspaces each call the same .NET API. Only the API validates ownership, transitions and persistence to the local JSON store. Public demo identities; no live Microsoft connection.</desc>
+<rect width="1200" height="480" fill="#f3f6f8"/>
+<g font-family="Arial, sans-serif" fill="#20384a">
+<text x="48" y="70" font-size="32" font-weight="bold">Deliver an accountable request workflow.</text>
+<text x="48" y="108" font-size="16" fill="#5c6e7a">Local implementation. Public demo identities. Microsoft deployment is a separate gate.</text>
+<g fill="white" stroke="#c8d8e1"><rect x="48" y="160" width="250" height="80" rx="6"/><rect x="48" y="280" width="250" height="80" rx="6"/><rect x="450" y="220" width="270" height="100" rx="6"/><rect x="870" y="220" width="282" height="100" rx="6"/></g>
+<text x="66" y="193" font-size="19" font-weight="bold">Employee workspace</text><text x="66" y="220" font-size="14" fill="#5c6e7a">Confirm / submit / track</text>
+<text x="66" y="313" font-size="19" font-weight="bold">Human approver</text><text x="66" y="340" font-size="14" fill="#5c6e7a">Review / reason / decision</text>
+<text x="470" y="256" font-size="21" font-weight="bold">.NET API</text><text x="470" y="286" font-size="14" fill="#5c6e7a">Owner / rules / version / writes</text>
+<text x="890" y="256" font-size="21" font-weight="bold">JSON + audit events</text><text x="890" y="286" font-size="14" fill="#5c6e7a">Single process; local demo store</text>
+<g fill="none" stroke="#096b62" stroke-width="2"><path d="M298 200 H375 V255 H440 m-7 -5 7 5 -7 5"/><path d="M298 320 H375 V285 H440 m-7 -5 7 5 -7 5"/><path d="M720 270 H860 m-7 -5 7 5 -7 5"/></g>
+<text x="48" y="418" font-size="16" fill="#096b62">Rules route the work. The model has no approval authority.</text>
+<text x="48" y="450" font-size="13" fill="#5c6e7a">Authored architecture diagram. Entra identity, queue-specific RBAC and transactional storage remain production gates.</text>
+</g></svg>

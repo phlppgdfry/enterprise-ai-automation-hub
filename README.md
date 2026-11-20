@@ -1,5 +1,11 @@
 # Noordwerk · Enterprise AI Automation Hub
 
+<!-- showcase:start -->
+> **[▶ Live showcase](https://phlppgdfry.github.io/enterprise-ai-automation-hub/)** — submit a request and see the routing rule, validation and idempotency of the real API at work, with screenshots of the running hub.
+
+[![Live showcase: enterprise-ai-automation-hub](site/demo.png)](https://phlppgdfry.github.io/enterprise-ai-automation-hub/)
+<!-- showcase:end -->
+
 **[Portfolio completion](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/main/PORTFOLIO_FINAL.md) · [Five- and ten-minute walkthrough](https://github.com/phlppgdfry/ai-transformation-consulting-playbook/blob/main/docs/portfolio-walkthrough.md)**
 
 **A working employee-to-approver workflow: clear routing, human decisions, and inspectable engineering.**
